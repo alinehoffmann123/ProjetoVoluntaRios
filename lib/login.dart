@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'cadastro.dart';
+import 'home.dart';
+import 'cadastro.dart'; 
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -22,7 +23,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 80,
-                    backgroundImage: AssetImage('assets/logo.png'), 
+                    backgroundImage: AssetImage('assets/logo.png'),
                   ),
                   SizedBox(height: 30),
                   Text(
@@ -34,22 +35,22 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 400, 
+                    width: 400,
                     child: _buildTextField(Icons.email, 'E-mail'),
                   ),
-                  
                   SizedBox(height: 20),
-                  
                   SizedBox(
                     width: 400,
                     child: _buildTextField(Icons.lock, 'Senha', isPassword: true),
                   ),
-
                   SizedBox(height: 30),
-                  
                   ElevatedButton(
                     onPressed: () {
-                  
+                      // Navegação direta para a página de Home
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => HomeScreen()), // Redireciona para a página Home
+                      );
                     },
                     child: Text('Entrar', style: TextStyle(fontSize: 18)),
                     style: ElevatedButton.styleFrom(
@@ -61,12 +62,11 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 10),
-                  
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterScreen()),
+                        MaterialPageRoute(builder: (context) => RegisterScreen()), // Navegação para a tela de registro
                       );
                     },
                     child: Text(
