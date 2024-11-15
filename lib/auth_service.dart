@@ -4,11 +4,12 @@ import 'volunteer.dart';
 class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> registerVolunteer(String name, String email, String password) async {
+  Future<void> registerVolunteer(String name, String email, String password, String telefone) async {
     await _firestore.collection('volunteers').add({
       'name': name,
       'email': email,
-      'password': password, // Lembre-se de usar hash em produção
+      'password': password,
+      'telefone': telefone,
     });
   }
 
@@ -25,6 +26,8 @@ class AuthService {
         id: doc.id,
         name: doc['name'],
         email: doc['email'],
+        senha: doc['senha'],
+        telefone: doc['telefone'],
       );
     }
     return null;

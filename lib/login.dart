@@ -1,8 +1,80 @@
 import 'package:flutter/material.dart';
-import 'home.dart';
-import 'cadastro.dart'; 
+import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'juntos.dart';
+import 'cadastro.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login(BuildContext context) async {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor, preencha todos os campos.'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login bem-sucedido!'),
+          backgroundColor: Colors.green,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => JoinVoluntariosScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage = 'Erro ao fazer login. Tente novamente.';
+      if (e.code == 'user-not-found') {
+        errorMessage = 'Usuário não encontrado. Por favor, registre-se.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Senha incorreta. Tente novamente.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      if (e.code == 'user-not-found') {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => RegisterScreen()),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,22 +108,16 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 400,
-                    child: _buildTextField(Icons.email, 'E-mail'),
+                    child: _buildEmailField(),
                   ),
                   SizedBox(height: 20),
                   SizedBox(
                     width: 400,
-                    child: _buildTextField(Icons.lock, 'Senha', isPassword: true),
+                    child: _buildPasswordField(),
                   ),
                   SizedBox(height: 30),
                   ElevatedButton(
-                    onPressed: () {
-                      // Navegação direta para a página de Home
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomeScreen()), // Redireciona para a página Home
-                      );
-                    },
+                    onPressed: () => _login(context),
                     child: Text('Entrar', style: TextStyle(fontSize: 18)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.tealAccent.shade700,
@@ -66,7 +132,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RegisterScreen()), // Navegação para a tela de registro
+                        MaterialPageRoute(builder: (context) => RegisterScreen()),
                       );
                     },
                     child: Text(
@@ -83,12 +149,35 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(IconData icon, String label, {bool isPassword = false}) {
+  Widget _buildEmailField() {
     return TextField(
-      obscureText: isPassword,
+      controller: emailController,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        prefixIcon: Icon(icon, color: Colors.white),
-        labelText: label,
+        prefixIcon: Icon(Icons.email, color: Colors.white),
+        labelText: 'E-mail',
+        labelStyle: TextStyle(color: Colors.white),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.3),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(30),
+          borderSide: BorderSide.none,
+        ),
+      ),
+      style: TextStyle(color: Colors.white),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@.\-_]')),
+      ],
+    );
+  }
+
+  Widget _buildPasswordField() {
+    return TextField(
+      controller: passwordController,
+      obscureText: true,
+      decoration: InputDecoration(
+        prefixIcon: Icon(Icons.lock, color: Colors.white),
+        labelText: 'Senha',
         labelStyle: TextStyle(color: Colors.white),
         filled: true,
         fillColor: Colors.white.withOpacity(0.3),
