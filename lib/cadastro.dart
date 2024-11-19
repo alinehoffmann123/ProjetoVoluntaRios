@@ -4,9 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'juntos.dart';
 
 class RegisterScreen extends StatelessWidget {
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
@@ -48,35 +46,12 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 40),
 
-                  // Campo de nome com validação de apenas letras e espaço
-                  _buildTextField(
-                    Icons.person, 
-                    'Nome', 
-                    controller: nameController,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z\s]')),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-
                   // Campo de e-mail com validação de e-mail
                   _buildTextField(
                     Icons.email, 
                     'E-mail', 
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                  ),
-                  SizedBox(height: 20),
-
-                  // Campo de telefone com validação de apenas números
-                  _buildTextField(
-                    Icons.phone, 
-                    'Telefone', 
-                    controller: phoneController,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    keyboardType: TextInputType.phone,
                   ),
                   SizedBox(height: 20),
 
@@ -88,18 +63,6 @@ class RegisterScreen extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () async {
-                      // Validação de telefone
-                      if (phoneController.text.length < 10) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Número de telefone inválido.'),
-                            backgroundColor: Colors.red,
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                        return;
-                      }
-
                       // Validação de senha
                       if (passwordController.text.length < 6) {
                         ScaffoldMessenger.of(context).showSnackBar(

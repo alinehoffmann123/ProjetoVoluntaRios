@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'cadastro_dados_voluntarios.dart'; // Importando a tela de cadastro
 
 class JoinVoluntariosScreen extends StatelessWidget {
   @override
@@ -59,11 +60,11 @@ class JoinVoluntariosScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    _buildBenefitItem("🌱 Contribua com a preservação ambiental.", Colors.green),
+                    _buildBenefitItem("🌱 Contribua com a preservação ambiental.", const Color.fromARGB(255, 235, 19, 131)),
                     _buildBenefitItem("🎉 Acesse eventos exclusivos para voluntários.", Colors.orange),
                     _buildBenefitItem("🏅 Ganhe medalhas e prêmios virtuais.", Colors.yellow),
                     _buildBenefitItem("🤝 Conecte-se com uma comunidade engajada.", Colors.purple),
-                    _buildBenefitItem("📚 Aprenda e compartilhe conhecimento.", Colors.blueAccent),
+                    _buildBenefitItem("📚 Aprenda e compartilhe conhecimento.", const Color.fromARGB(255, 2, 41, 108)),
                     SizedBox(height: 24.0),
 
                     // Como funciona
@@ -76,8 +77,8 @@ class JoinVoluntariosScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    _buildStep("1", "Crie uma conta ou faça login.", Colors.teal),
-                    _buildStep("2", "Escolha ações para participar (limpeza, plantio, eventos).", Colors.blue),
+                    _buildStep("1", "Você já criou sua conta, só falta preencher alguns dados para seu cadastro nos voltários estar completo.", const Color.fromARGB(255, 18, 204, 130)),
+                    _buildStep("2", "Escolha ações para participar (limpeza, plantio, eventos).", const Color.fromARGB(255, 2, 41, 108)),
                     _buildStep("3", "Conquiste medalhas e acompanhe seu impacto!", Colors.orangeAccent),
                     SizedBox(height: 24.0),
 
@@ -96,7 +97,11 @@ class JoinVoluntariosScreen extends StatelessWidget {
                           SizedBox(height: 16.0),
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, "/signup");
+                              // Usando o Navigator.push para ir diretamente para a nova tela de cadastro
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CadastroVoluntariosScreen()), // Aqui é feita a navegação
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.teal.shade700,
@@ -106,8 +111,9 @@ class JoinVoluntariosScreen extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              "Cadastre-se agora!",
-                              style: TextStyle(fontSize: 18.0),
+                              "Preencher dados!",
+                              style: TextStyle(fontSize: 18.0,
+                              color: Colors.white),
                             ),
                           ),
                           TextButton(
@@ -188,5 +194,3 @@ class JoinVoluntariosScreen extends StatelessWidget {
     );
   }
 }
-
-
