@@ -14,11 +14,19 @@ O **VoluntaRios** é um aplicativo inovador projetado para conectar voluntários
 
 ## 🛠️ Funcionalidades Implementadas
 
-Até o momento, o projeto conta com as seguintes funcionalidades:
+O projeto conta com as seguintes funcionalidades e principais telas:
 
+- **Tela de Home**: Contém as informações do que seria o projeto VoluntáRios com as opções de fazer Login os se cadastrar
 - **Tela de Login**: Permite que os usuários se autentiquem usando e-mail e senha.
-- **Tela de Registro**: Permite que novos usuários se cadastrem com informações essenciais, como nome, e-mail e senha.
+- **Tela Principal**: Essa tela mostra as informações dos eventos que acontecem todas as semanas, tem um link da defesa Civil para saber mais informações de qual a situação atual do Rio.
+- **Tela de Ajuda**: A tela de ajuda contém as perguntas frequentes e as formas de contato com algém responsávelpelos voluntários.
+- **Tela de Registro**: Permite que novos usuários se cadastrem com informações essenciais como e-mail e senha.
+- **Tela de Informações**: Nessa tela contém mais algumas informções do porque ser um voluntário e de como proceguir.
+- **Telas de preencher dados**: Nessas telas o voluntário preenche mais alguns dados sobre seu Nome completo, sua idade, suas preferências de trabalho, suas habilidades, etc...
+- **Tela de Dados**: Nessa tela é mostrado os seus dado cadastrados e uma mensagem que seu cadastro foi um sucesso e que é só esperar alguém entrar em contato.
 - **Navegação**: Transição suave entre as telas de login e registro.
 - **Design Atraente**: Interface de usuário moderna com um design amigável e intuitivo.
 
 Obrigado por visitar o repositório do VoluntaRios! Junte-se a nós nessa jornada pela preservação do meio ambiente!
+
+*** Desenvolvido por Aline Fernada Hoffmann e Gabriela da Silva. ***
