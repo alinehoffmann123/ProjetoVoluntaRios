@@ -2,6 +2,9 @@
     <application
         android:label="flutter_application_1"
         android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:name="io.flutter.app.FlutterApplication"
+        android:label="VoluntaRios"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -19,6 +22,8 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
+              android:name="com.google.android.geo.API_KEY"
+              android:value="@string/google_maps_key"
               />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

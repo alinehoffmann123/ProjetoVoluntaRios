@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'cadastro_dados_voluntarios.dart'; // Importando a tela de cadastro
+import 'cadastro_dados_voluntarios.dart';
 
 class JoinVoluntariosScreen extends StatelessWidget {
   @override
@@ -77,7 +77,7 @@ class JoinVoluntariosScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.0),
-                    _buildStep("1", "Você já criou sua conta, só falta preencher alguns dados para seu cadastro nos voltários estar completo.", const Color.fromARGB(255, 18, 204, 130)),
+                    _buildStep("1", "Você já criou sua conta, só falta preencher alguns dados para seu cadastro nos volutáRios estar completo.", const Color.fromARGB(255, 18, 204, 130)),
                     _buildStep("2", "Escolha ações para participar (limpeza, plantio, eventos).", const Color.fromARGB(255, 2, 41, 108)),
                     _buildStep("3", "Conquiste medalhas e acompanhe seu impacto!", Colors.orangeAccent),
                     SizedBox(height: 24.0),
@@ -97,10 +97,9 @@ class JoinVoluntariosScreen extends StatelessWidget {
                           SizedBox(height: 16.0),
                           ElevatedButton(
                             onPressed: () {
-                              // Usando o Navigator.push para ir diretamente para a nova tela de cadastro
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => CadastroVoluntariosScreen()), // Aqui é feita a navegação
+                                MaterialPageRoute(builder: (context) => CadastroScreen()),
                               );
                             },
                             style: ElevatedButton.styleFrom(

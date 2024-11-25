@@ -1,139 +1,156 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'home.dart'; 
 
-class TelaFinalDados extends StatelessWidget {
-  final String nome;
-  final String email;
-  final String telefone;
-  final String idade;
-  final String rua;
-  final String numero;
-  final String bairro;
-  final String cidade;
-  final String estado;
-  final String cep;
-  final String horario;
-  final String preferencias;
-  final String habilidades;
-  final String saude;
-  final String motivacao;
+class TelaFinalDados extends StatefulWidget {
+  final String userId;
 
-  TelaFinalDados({
-    required this.nome,
-    required this.email,
-    required this.telefone,
-    required this.idade,
-    required this.rua,
-    required this.numero,
-    required this.bairro,
-    required this.cidade,
-    required this.estado,
-    required this.cep,
-    required this.horario,
-    required this.preferencias,
-    required this.habilidades,
-    required this.saude,
-    required this.motivacao,
-  });
+  TelaFinalDados({required this.userId});
+
+  @override
+  _TelaFinalDadosState createState() => _TelaFinalDadosState();
+}
+
+class _TelaFinalDadosState extends State<TelaFinalDados> {
+  late Future<Map<String, dynamic>> userData;
+
+  @override
+  void initState() {
+    super.initState();
+    userData = _fetchUserData();
+  }
+
+  Future<Map<String, dynamic>> _fetchUserData() async {
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+        .collection('voluntarios')
+        .doc(widget.userId)
+        .get();
+
+    if (docSnapshot.exists) {
+      return docSnapshot.data() as Map<String, dynamic>;
+    } else {
+      print('Documento não encontrado');
+      return {};
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Colors.teal;
+    final secondaryColor = Colors.tealAccent;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dados Cadastrados'),
-        backgroundColor: Colors.teal.shade700,
-        leading: IconButton(
-          icon: Icon(Icons.home),
-          onPressed: () {
-            // Navegar de volta para a página inicial (home)
-            Navigator.popUntil(context, ModalRoute.withName('/'));
-          },
-        ),
+        title: Text('Seus Dados Cadastrados'),
+        backgroundColor: primaryColor,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildAnimatedDataRow('Nome', nome),
-              _buildAnimatedDataRow('Email', email),
-              _buildAnimatedDataRow('Telefone', telefone),
-              _buildAnimatedDataRow('Idade', idade),
-              _buildAnimatedDataRow(
-                'Endereço',
-                '$rua, $numero, $bairro, $cidade, $estado, $cep',
+      body: FutureBuilder<Map<String, dynamic>>(
+        future: userData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Erro ao carregar os dados.\n${snapshot.error}',
+                style: TextStyle(color: Colors.red, fontSize: 16),
+                textAlign: TextAlign.center,
               ),
-              _buildAnimatedDataRow('Horário Disponível', horario),
-              _buildAnimatedDataRow('Preferências', preferencias),
-              _buildAnimatedDataRow('Habilidades', habilidades),
-              _buildAnimatedDataRow('Saúde', saude),
-              _buildAnimatedDataRow('Motivação', motivacao),
-              SizedBox(height: 30),
-              _buildStyledButton(context),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Função para criar uma linha de dados com animação
-  Widget _buildAnimatedDataRow(String label, String value) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.teal.shade50,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$label: ',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: Colors.teal.shade700,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              style: TextStyle(fontSize: 16, color: Colors.black87),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Função para o botão estilizado
-  Widget _buildStyledButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        // Voltar para a página inicial
-        Navigator.popUntil(context, ModalRoute.withName('/'));
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.teal.shade700,
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        elevation: 8,
-      ),
-      child: Text(
-        'Voltar para a Home',
-        style: TextStyle(fontSize: 18),
+            );
+          }
+          if (snapshot.hasData) {
+            Map<String, dynamic> data = snapshot.data!;
+            return SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Informações do Voluntário',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  ...data.entries.map((entry) {
+                    return Card(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                '${entry.key}:',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                '${entry.value}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  SizedBox(height: 20),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                      ),
+                      child: Text(
+                        'Voltar',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: Text(
+                'Nenhum dado encontrado.',
+                style: TextStyle(color: Colors.grey, fontSize: 16),
+              ),
+            );
+          }
+        },
       ),
     );
   }

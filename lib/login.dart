@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'juntos.dart';
+import 'principal.dart';
 import 'cadastro.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => JoinVoluntariosScreen()),
+        MaterialPageRoute(builder: (context) => PrincipalScreen()),
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Erro ao fazer login. Tente novamente.';

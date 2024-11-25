@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'auth_service.dart';
 import 'tela_final_dados.dart';
 
-class CadastroVoluntariosScreen extends StatefulWidget {
+class CadastroScreen extends StatefulWidget {
   @override
-  _CadastroVoluntariosScreenState createState() =>
-      _CadastroVoluntariosScreenState();
+  _CadastroScreenState createState() => _CadastroScreenState();
 }
 
-class _CadastroVoluntariosScreenState extends State<CadastroVoluntariosScreen> {
-  final _formKey = GlobalKey<FormState>();
-  int _currentStep = 0;
-
-  // Controladores para os campos
+class _CadastroScreenState extends State<CadastroScreen> {
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _telefoneController = TextEditingController();
   final _idadeController = TextEditingController();
   final _ruaController = TextEditingController();
-  final _bairroController = TextEditingController();
   final _numeroController = TextEditingController();
+  final _bairroController = TextEditingController();
   final _cidadeController = TextEditingController();
   final _estadoController = TextEditingController();
   final _cepController = TextEditingController();
@@ -28,226 +24,226 @@ class _CadastroVoluntariosScreenState extends State<CadastroVoluntariosScreen> {
   final _saudeController = TextEditingController();
   final _motivacaoController = TextEditingController();
 
-  List<bool> _completedSteps = [];
+  final _pageController = PageController();
+  int _currentPage = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    // Inicializa a lista de etapas como não concluídas
-    _completedSteps = List.generate(_getSteps().length, (_) => false);
+  // Função para salvar os dados do voluntário
+  void _cadastrarVoluntario() async {
+    String nome = _nomeController.text;
+    String email = _emailController.text;
+    String telefone = _telefoneController.text;
+    String idade = _idadeController.text;
+    String rua = _ruaController.text;
+    String numero = _numeroController.text;
+    String bairro = _bairroController.text;
+    String cidade = _cidadeController.text;
+    String estado = _estadoController.text;
+    String cep = _cepController.text;
+    String horario = _horarioController.text;
+    String preferencias = _preferenciasController.text;
+    String habilidades = _habilidadesController.text;
+    String saude = _saudeController.text;
+    String motivacao = _motivacaoController.text;
+
+    try {
+      String userId = await AuthService().registerVoluntario(
+        nome,
+        email,
+        telefone,
+        idade,
+        rua,
+        numero,
+        bairro,
+        cidade,
+        estado,
+        cep,
+        horario,
+        preferencias,
+        habilidades,
+        saude,
+        motivacao,
+      );
+      showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cadastro realizado!'),
+          content: Text(
+            'Seu cadastro foi concluído com sucesso. Aguarde até que nossa equipe entre em contato.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Fecha o diálogo
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaFinalDados(userId: userId),
+                  ),
+                );
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Erro ao cadastrar!')),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
+    Color primaryColor = Colors.teal.shade700;
+    Color accentColor = Colors.blue; 
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cadastro de Voluntários"),
-        backgroundColor: Colors.teal.shade700,
+        title: Text('Cadastro de Voluntário'),
+        backgroundColor: primaryColor,
       ),
-      body: Column(
-        children: [
-          // Barra de progresso
-          LinearProgressIndicator(
-            value: (_currentStep + 1) / _getSteps().length,
-            backgroundColor: Colors.grey.shade300,
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.teal.shade700),
-          ),
-          Expanded(
-            child: _getSteps().isEmpty
-                ? Center(child: Text('Nenhum passo encontrado.'))
-                : Stepper(
-                    type: StepperType.vertical,
-                    currentStep: _currentStep,
-                    onStepContinue: _nextStep,
-                    onStepCancel: _prevStep,
-                    steps: _getSteps(),
-                    controlsBuilder: (context, details) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                            onPressed: details.onStepContinue,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.teal.shade700,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
-                            ),
-                            child: Text("Continuar"),
-                          ),
-                          if (_currentStep > 0)
-                            OutlinedButton(
-                              onPressed: details.onStepCancel,
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.teal.shade700),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 12),
-                              ),
-                              child: Text("Voltar",
-                                  style: TextStyle(color: Colors.teal.shade700)),
-                            ),
-                        ],
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            LinearProgressIndicator(
+              value: (_currentPage + 1) / 4,
+              backgroundColor: Colors.grey[300],
+              valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                children: [
+                  _buildPersonalInfoPage(primaryColor),
+                  _buildAddressPage(primaryColor),
+                  _buildAvailabilityPage(primaryColor),
+                  _buildAdditionalInfoPage(primaryColor),
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (_currentPage > 0)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: accentColor,
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
+                    onPressed: () {
+                      _pageController.previousPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Text('Anterior'),
                   ),
-          ),
-        ],
+                if (_currentPage < 3)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    onPressed: () {
+                      _pageController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Text('Próximo'),
+                  ),
+                if (_currentPage == 3)
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    ),
+                    onPressed: _cadastrarVoluntario,
+                    child: Text('Cadastrar'),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  List<Step> _getSteps() {
-    return [
-      Step(
-        title: Text('Dados Pessoais'),
-        content: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _nomeController,
-                decoration: InputDecoration(labelText: 'Nome'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Informe seu nome' : null,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Informe seu email' : null,
-              ),
-              TextFormField(
-                controller: _telefoneController,
-                decoration: InputDecoration(labelText: 'Telefone'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Informe seu telefone' : null,
-              ),
-              TextFormField(
-                controller: _idadeController,
-                decoration: InputDecoration(labelText: 'Idade'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Informe sua idade' : null,
-              ),
-            ],
+  Widget _buildTextField(String label, TextEditingController controller, Color color, {IconData? icon}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: icon != null ? Icon(icon, color: color) : null,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: color, width: 2),
           ),
         ),
-        isActive: _currentStep >= 0,
-        state: _completedSteps.isNotEmpty && _completedSteps[0]
-            ? StepState.complete
-            : StepState.indexed,
       ),
-      Step(
-        title: Text('Endereço'),
-        content: Column(
-          children: [
-            TextFormField(
-              controller: _ruaController,
-              decoration: InputDecoration(labelText: 'Rua'),
-            ),
-            TextFormField(
-              controller: _numeroController,
-              decoration: InputDecoration(labelText: 'Número'),
-            ),
-            TextFormField(
-              controller: _bairroController,
-              decoration: InputDecoration(labelText: 'Bairro'),
-            ),
-            TextFormField(
-              controller: _cidadeController,
-              decoration: InputDecoration(labelText: 'Cidade'),
-            ),
-            TextFormField(
-              controller: _estadoController,
-              decoration: InputDecoration(labelText: 'Estado'),
-            ),
-            TextFormField(
-              controller: _cepController,
-              decoration: InputDecoration(labelText: 'CEP'),
-            ),
-          ],
-        ),
-        isActive: _currentStep >= 1,
-        state: _completedSteps.length > 1 && _completedSteps[1]
-            ? StepState.complete
-            : StepState.indexed,
-      ),
-      Step(
-        title: Text('Preferências e Saúde'),
-        content: Column(
-          children: [
-            TextFormField(
-              controller: _preferenciasController,
-              decoration: InputDecoration(labelText: 'Preferências'),
-            ),
-            TextFormField(
-              controller: _habilidadesController,
-              decoration: InputDecoration(labelText: 'Habilidades'),
-            ),
-            TextFormField(
-              controller: _horarioController,
-              decoration: InputDecoration(labelText: 'Horário de Disponibilidade'),
-            ),
-            TextFormField(
-              controller: _saudeController,
-              decoration: InputDecoration(labelText: 'Condições de Saúde'),
-            ),
-            TextFormField(
-              controller: _motivacaoController,
-              decoration: InputDecoration(labelText: 'Motivação'),
-            ),
-          ],
-        ),
-        isActive: _currentStep >= 2,
-        state: _completedSteps.length > 2 && _completedSteps[2]
-            ? StepState.complete
-            : StepState.indexed,
-      ),
-    ];
+    );
   }
 
-  void _nextStep() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _completedSteps[_currentStep] = true;
-        if (_currentStep < _getSteps().length - 1) {
-          _currentStep++;
-        } else {
-          _submitForm();
-        }
-      });
-    }
+  Widget _buildPersonalInfoPage(Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField('Nome', _nomeController, color, icon: Icons.person),
+        _buildTextField('Email', _emailController, color, icon: Icons.email),
+        _buildTextField('Telefone', _telefoneController, color, icon: Icons.phone),
+        _buildTextField('Idade', _idadeController, color, icon: Icons.cake),
+      ],
+    );
   }
 
-  void _prevStep() {
-    setState(() {
-      if (_currentStep > 0) {
-        _currentStep--;
-      }
-    });
+  Widget _buildAddressPage(Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField('Rua', _ruaController, color, icon: Icons.location_on),
+        _buildTextField('Número', _numeroController, color),
+        _buildTextField('Bairro', _bairroController, color),
+        _buildTextField('Cidade', _cidadeController, color, icon: Icons.location_city),
+        _buildTextField('Estado', _estadoController, color),
+        _buildTextField('CEP', _cepController, color),
+      ],
+    );
   }
 
-  void _submitForm() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => TelaFinalDados(
-          nome: _nomeController.text,
-          email: _emailController.text,
-          telefone: _telefoneController.text,
-          idade: _idadeController.text,
-          rua: _ruaController.text,
-          numero: _numeroController.text,
-          bairro: _bairroController.text,
-          cidade: _cidadeController.text,
-          estado: _estadoController.text,
-          cep: _cepController.text,
-          horario: _horarioController.text,
-          preferencias: _preferenciasController.text,
-          habilidades: _habilidadesController.text,
-          saude: _saudeController.text,
-          motivacao: _motivacaoController.text,
-        ),
-      ),
+  Widget _buildAvailabilityPage(Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField('Horário disponível', _horarioController, color),
+        _buildTextField('Preferências de trabalho', _preferenciasController, color),
+      ],
+    );
+  }
+
+  Widget _buildAdditionalInfoPage(Color color) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField('Habilidades', _habilidadesController, color),
+        _buildTextField('Saúde', _saudeController, color),
+        _buildTextField('Motivação', _motivacaoController, color),
+      ],
     );
   }
 }

@@ -21,10 +21,4 @@ Até o momento, o projeto conta com as seguintes funcionalidades:
 - **Navegação**: Transição suave entre as telas de login e registro.
 - **Design Atraente**: Interface de usuário moderna com um design amigável e intuitivo.
 
-## ⚙️ Tecnologias Utilizadas
-
-- **Frontend**: Flutter (Dart)
-- **Backend**: (a ser definido, podendo ser Node.js, PHP, etc.)
-- **Banco de Dados**: (a ser definido, podendo ser MySQL, PostgreSQL, etc.)
-
 Obrigado por visitar o repositório do VoluntaRios! Junte-se a nós nessa jornada pela preservação do meio ambiente!
