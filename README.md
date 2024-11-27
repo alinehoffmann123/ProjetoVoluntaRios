@@ -27,6 +27,58 @@ O projeto conta com as seguintes funcionalidades e principais telas:
 - **Navegação**: Transição suave entre as telas de login e registro.
 - **Design Atraente**: Interface de usuário moderna com um design amigável e intuitivo.
 
-Obrigado por visitar o repositório do VoluntaRios! Junte-se a nós nessa jornada pela preservação do meio ambiente!
 
-*** Desenvolvido por Aline Fernada Hoffmann e Gabriela da Silva. ***
+## Rodar o projeto
+
+1. **Clone o repositório**:
+
+    ```bash
+    git clone https://github.com/alinehoffmann123/ProjetoVoluntaRios.git
+    ```
+2. **Instale as dependências**:
+
+    Navegue até o diretório do projeto:
+
+    ```bash
+    cd ProjetoVoluntaRios
+    ```
+
+    Rode o seguinte comando
+
+    ```bash
+     flutter doctor
+    ```
+
+    Em seguida, instale as dependências com o Flutter:
+
+    ```bash
+    flutter pub get
+    ```
+
+    Para instalar as dependências do Firebase rode o seguinte comando
+
+    ```bash
+    npm install -g firebase-tools
+    ```
+
+    Em seguida, configure o firebase e aceite todas as dependências
+
+    ```bash
+    flutterfire configure
+    ```
+
+    Agora para rodar o projeto, de o seguinte comando
+
+    ```bash
+    flutter run
+    ```
+
+    E escolha a opção 2 para rodar no chrome.
+
+---
+
+Obrigado por visitar o repositório do VoluntáRios! Junte-se a nós nessa jornada pela preservação do meio ambiente!
+
+---
+
+* Desenvolvido por Aline Fernada Hoffmann e Gabriela da Silva. *

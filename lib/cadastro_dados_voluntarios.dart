@@ -27,43 +27,80 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _pageController = PageController();
   int _currentPage = 0;
 
-  // Função para salvar os dados do voluntário
-  void _cadastrarVoluntario() async {
-    String nome = _nomeController.text;
-    String email = _emailController.text;
-    String telefone = _telefoneController.text;
-    String idade = _idadeController.text;
-    String rua = _ruaController.text;
-    String numero = _numeroController.text;
-    String bairro = _bairroController.text;
-    String cidade = _cidadeController.text;
-    String estado = _estadoController.text;
-    String cep = _cepController.text;
-    String horario = _horarioController.text;
-    String preferencias = _preferenciasController.text;
-    String habilidades = _habilidadesController.text;
-    String saude = _saudeController.text;
-    String motivacao = _motivacaoController.text;
-
-    try {
-      String userId = await AuthService().registerVoluntario(
-        nome,
-        email,
-        telefone,
-        idade,
-        rua,
-        numero,
-        bairro,
-        cidade,
-        estado,
-        cep,
-        horario,
-        preferencias,
-        habilidades,
-        saude,
-        motivacao,
+  void _validarECadastrar() async {
+    if (!_validarCamposPaginaAtual()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Por favor, preencha todos os campos obrigatórios!')),
       );
-      showDialog(
+      return;
+    }
+
+    // Cadastro ocorre apenas na última página.
+    if (_currentPage == 3) {
+      try {
+        String userId = await AuthService().registerVoluntario(
+          _nomeController.text,
+          _emailController.text,
+          _telefoneController.text,
+          _idadeController.text,
+          _ruaController.text,
+          _numeroController.text,
+          _bairroController.text,
+          _cidadeController.text,
+          _estadoController.text,
+          _cepController.text,
+          _horarioController.text,
+          _preferenciasController.text,
+          _habilidadesController.text,
+          _saudeController.text,
+          _motivacaoController.text,
+        );
+        _mostrarDialogoSucesso(userId);
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao cadastrar!')),
+        );
+      }
+    } else {
+      _proximaPagina();
+    }
+  }
+
+  void _proximaPagina() {
+    _pageController.nextPage(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.ease,
+    );
+  }
+
+  bool _validarCamposPaginaAtual() {
+    switch (_currentPage) {
+      case 0:
+        return _nomeController.text.isNotEmpty &&
+            _emailController.text.isNotEmpty &&
+            _telefoneController.text.isNotEmpty &&
+            _idadeController.text.isNotEmpty;
+      case 1:
+        return _ruaController.text.isNotEmpty &&
+            _numeroController.text.isNotEmpty &&
+            _bairroController.text.isNotEmpty &&
+            _cidadeController.text.isNotEmpty &&
+            _estadoController.text.isNotEmpty &&
+            _cepController.text.isNotEmpty;
+      case 2:
+        return _horarioController.text.isNotEmpty &&
+            _preferenciasController.text.isNotEmpty;
+      case 3:
+        return _habilidadesController.text.isNotEmpty &&
+            _saudeController.text.isNotEmpty &&
+            _motivacaoController.text.isNotEmpty;
+      default:
+        return false;
+    }
+  }
+
+  void _mostrarDialogoSucesso(String userId) {
+    showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -74,7 +111,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context); // Fecha o diálogo
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -88,17 +125,12 @@ class _CadastroScreenState extends State<CadastroScreen> {
         );
       },
     );
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erro ao cadastrar!')),
-    );
   }
-}
 
   @override
   Widget build(BuildContext context) {
     Color primaryColor = Colors.teal.shade700;
-    Color accentColor = Colors.blue; 
+    Color accentColor = Colors.blue;
 
     return Scaffold(
       appBar: AppBar(
@@ -123,6 +155,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     _currentPage = page;
                   });
                 },
+                physics: NeverScrollableScrollPhysics(), // Impede deslizar manualmente
                 children: [
                   _buildPersonalInfoPage(primaryColor),
                   _buildAddressPage(primaryColor),
@@ -150,31 +183,15 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     },
                     child: Text('Anterior'),
                   ),
-                if (_currentPage < 3)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: primaryColor,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: () {
-                      _pageController.nextPage(
-                        duration: Duration(milliseconds: 300),
-                        curve: Curves.ease,
-                      );
-                    },
-                    child: Text('Próximo'),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _currentPage == 3 ? Colors.orange : primaryColor,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                if (_currentPage == 3)
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    ),
-                    onPressed: _cadastrarVoluntario,
-                    child: Text('Cadastrar'),
-                  ),
+                  onPressed: _validarECadastrar,
+                  child: Text(_currentPage == 3 ? 'Cadastrar' : 'Próximo'),
+                ),
               ],
             ),
           ],

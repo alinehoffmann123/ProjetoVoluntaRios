@@ -11,6 +11,42 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal.shade700,
+        title: Text('VoluntáRios'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app, color: Colors.white),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Sair'),
+                    content: Text('Você deseja realmente sair do aplicativo?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Fecha o diálogo
+                        },
+                        child: Text('Cancelar'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Fecha o diálogo
+                          Navigator.of(context).pop(); // Sai da tela atual
+                        },
+                        child: Text('Sair'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -23,7 +59,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Ajusta o tamanho da coluna
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Saudação ao usuário
                 Padding(
@@ -59,42 +95,27 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                       SizedBox(height: 10),
                       Text(
                         'Limpeza do Rio - Segunda-feira',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 5),
                       Text(
                         'Plantio de Árvores - Terça-feira',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 5),
                       Text(
                         'Limpeza do rio - Quarta-feira',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 5),
                       Text(
                         'Jardinagem - Quinta-feira',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 5),
                       Text(
                         'Campanha de Plantio de Árvores - Sexta-feira',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 10),
                     ],
@@ -123,18 +144,12 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                       SizedBox(height: 10),
                       Text(
                         'Ação de Limpeza do Rio: Completamos 75% da meta! Junte-se a nós na próxima segunda-feira.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 5),
                       Text(
                         'Novo projeto de Plantio de Árvores: Ajude a plantar 1000 árvores ao longo do Rio Itajaí-açu!',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(
@@ -154,7 +169,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -181,10 +196,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                       SizedBox(height: 10),
                       Text(
                         'Confira nossas FAQs ou entre em contato conosco.',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 10),
                       ElevatedButton(
@@ -208,7 +220,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                 ),
                 SizedBox(height: 20),
 
-                // Nova seção de Eventos Futuros
+                // Nova seção para preencher espaço vazio
                 Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -219,7 +231,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Eventos Futuros:',
+                        'Curiosidades sobre o Rio Itajaí-açu:',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -228,13 +240,14 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Campanha de Conscientização Ambiental - Sábado próximo!',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black87,
-                        ),
+                        'Sabia que o Rio Itajaí-açu é o maior rio em Santa Catarina e essencial para o abastecimento e turismo da região?',
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                       SizedBox(height: 10),
+                      Text(
+                        'Além disso, ele é palco de diversas ações de preservação ambiental realizadas por voluntários como você!',
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                      ),
                     ],
                   ),
                 ),

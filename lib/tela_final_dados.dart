@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'home.dart'; 
+import 'home.dart';
 
 class TelaFinalDados extends StatefulWidget {
   final String userId;
@@ -37,12 +37,12 @@ class _TelaFinalDadosState extends State<TelaFinalDados> {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Colors.teal;
-    final secondaryColor = Colors.tealAccent;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Seus Dados Cadastrados'),
         backgroundColor: primaryColor,
+        automaticallyImplyLeading: false, // Remove a flecha de retorno padrão
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: userData,
@@ -134,7 +134,7 @@ class _TelaFinalDadosState extends State<TelaFinalDados> {
                         ),
                       ),
                       child: Text(
-                        'Voltar',
+                        'Voltar para a Home',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
