@@ -8,8 +8,8 @@ class AjudaScreen extends StatelessWidget {
       scheme: 'mailto',
       path: 'aline.hoffmann@unidavi.edu.br',
       queryParameters: {
-        'subject': 'Suporte VoluntáRios', // Assunto do e-mail
-        'body': 'Olá, gostaria de saber mais sobre o suporte.', // Corpo do e-mail
+        'subject': 'Suporte VoluntáRios', 
+        'body': 'Olá, gostaria de saber mais sobre o projeto VoluntáRios.', 
       },
     );
 
@@ -24,7 +24,7 @@ class AjudaScreen extends StatelessWidget {
   void _ligarParaSuporte() async {
     final Uri telefoneUri = Uri(
       scheme: 'tel',
-      path: '47988260930', // Número do telefone
+      path: '47988260930', 
     );
 
     if (await canLaunch(telefoneUri.toString())) {
@@ -97,7 +97,6 @@ class AjudaScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // Mais perguntas podem ser adicionadas aqui...
 
             SizedBox(height: 30),
 

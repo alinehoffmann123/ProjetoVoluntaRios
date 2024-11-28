@@ -28,14 +28,14 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                     actions: [
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
+                          Navigator.of(context).pop();
                         },
                         child: Text('Cancelar'),
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop(); // Fecha o diálogo
-                          Navigator.of(context).pop(); // Sai da tela atual
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                         },
                         child: Text('Sair'),
                       ),
@@ -61,7 +61,6 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Saudação ao usuário
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20.0),
                   child: Text(
@@ -219,8 +218,6 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-
-                // Nova seção para preencher espaço vazio
                 Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(

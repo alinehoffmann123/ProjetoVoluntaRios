@@ -13,10 +13,10 @@ class HomeScreen extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Text(
-                    'Aqui você pode aprender mais sobre o VoluntaRios e como participar de nossas atividades.'),
+                    'Aqui você pode aprender mais sobre o VoluntáRios e como participar de nossas atividades.'),
                 SizedBox(height: 10),
                 Text(
-                    'Para se tornar um voluntário, basta clicar em "Junte-se ao VoluntaRios" e preencher o cadastro.'),
+                    'Para se tornar um voluntário, basta clicar em "Junte-se ao VoluntáRios" e preencher o cadastro.'),
               ],
             ),
           ),
@@ -47,7 +47,6 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Header Section
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 50.0),
                 child: Column(
@@ -58,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     Text(
-                      'Bem-vindo ao VoluntaRios!',
+                      'Bem-vindo ao VoluntáRios!',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -78,15 +77,13 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
-              // Section about the project
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sobre o VoluntaRios',
+                      'Sobre o VoluntáRios',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -95,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'O VoluntaRios é um projeto dedicado à preservação e conservação do Rio Itajaí-Açu e suas águas. Através do nosso sistema de voluntariado, qualquer pessoa pode contribuir com o meio ambiente realizando atividades como a limpeza das margens do rio, plantio de árvores e outras iniciativas de conscientização ambiental.',
+                      'O VoluntáRios é um projeto dedicado à preservação e conservação do Rio Itajaí-Açu e suas águas. Através do nosso sistema de voluntariado, qualquer pessoa pode contribuir com o meio ambiente realizando atividades como a limpeza das margens do rio, plantio de árvores e outras iniciativas de conscientização ambiental.',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -104,7 +101,6 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
 
-                    // Section: What we do
                     Text(
                       'O que fazemos?',
                       style: TextStyle(
@@ -115,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'No VoluntaRios, organizamos eventos de limpeza do rio, campanhas de educação ambiental e ações que visam preservar a biodiversidade ao redor da região. Qualquer pessoa pode se inscrever como voluntário e ajudar a proteger nosso meio ambiente.',
+                      'No VoluntáRios, organizamos eventos de limpeza do rio, campanhas de educação ambiental e ações que visam preservar a biodiversidade ao redor da região. Qualquer pessoa pode se inscrever como voluntário e ajudar a proteger nosso meio ambiente.',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.normal,
@@ -123,8 +119,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30),
-
-                    // Section: How you can help
                     Text(
                       'Como você pode ajudar?',
                       style: TextStyle(
@@ -143,8 +137,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 30),
-
-                    // Call to action - Buttons for registration and login
                     Center(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -157,7 +149,7 @@ class HomeScreen extends StatelessWidget {
                                     builder: (context) => RegisterScreen()),
                               );
                             },
-                            child: Text('Junte-se ao VoluntaRios'),
+                            child: Text('Junte-se ao VoluntáRios'),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.tealAccent.shade700,
                               padding: EdgeInsets.symmetric(

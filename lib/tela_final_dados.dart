@@ -42,7 +42,7 @@ class _TelaFinalDadosState extends State<TelaFinalDados> {
       appBar: AppBar(
         title: Text('Seus Dados Cadastrados'),
         backgroundColor: primaryColor,
-        automaticallyImplyLeading: false, // Remove a flecha de retorno padrão
+        automaticallyImplyLeading: false,
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: userData,

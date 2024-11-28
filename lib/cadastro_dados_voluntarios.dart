@@ -35,7 +35,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
       return;
     }
 
-    // Cadastro ocorre apenas na última página.
     if (_currentPage == 3) {
       try {
         String userId = await AuthService().registerVoluntario(
@@ -155,7 +154,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     _currentPage = page;
                   });
                 },
-                physics: NeverScrollableScrollPhysics(), // Impede deslizar manualmente
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   _buildPersonalInfoPage(primaryColor),
                   _buildAddressPage(primaryColor),

@@ -46,7 +46,6 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 40),
 
-                  // Campo de e-mail com validação de e-mail
                   _buildTextField(
                     Icons.email, 
                     'E-mail', 
@@ -63,7 +62,6 @@ class RegisterScreen extends StatelessWidget {
 
                   ElevatedButton(
                     onPressed: () async {
-                      // Validação de senha
                       if (passwordController.text.length < 6) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -75,7 +73,6 @@ class RegisterScreen extends StatelessWidget {
                         return;
                       }
 
-                      // Validação de correspondência de senhas
                       if (passwordController.text != confirmPasswordController.text) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -87,7 +84,6 @@ class RegisterScreen extends StatelessWidget {
                         return;
                       }
 
-                      // Tentativa de cadastro
                       try {
                         await FirebaseAuth.instance.createUserWithEmailAndPassword(
                           email: emailController.text,
@@ -109,7 +105,6 @@ class RegisterScreen extends StatelessWidget {
                       } catch (e) {
                         String errorMessage;
 
-                        // Verificar tipo de erro do Firebase
                         if (e is FirebaseAuthException) {
                           switch (e.code) {
                             case 'invalid-email':

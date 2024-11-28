@@ -6,7 +6,7 @@ class JoinVoluntariosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Junte-se ao VoluntaRios"),
+        title: Text("Junte-se ao VoluntáRios"),
         backgroundColor: Colors.teal.shade700,
       ),
       body: Container(
@@ -19,14 +19,12 @@ class JoinVoluntariosScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // Cabeçalho
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Header
                     Center(
                       child: Column(
                         children: [
@@ -49,8 +47,6 @@ class JoinVoluntariosScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 24.0),
-
-                    // Benefícios
                     Text(
                       "Por que participar?",
                       style: TextStyle(
@@ -66,8 +62,6 @@ class JoinVoluntariosScreen extends StatelessWidget {
                     _buildBenefitItem("🤝 Conecte-se com uma comunidade engajada.", Colors.purple),
                     _buildBenefitItem("📚 Aprenda e compartilhe conhecimento.", const Color.fromARGB(255, 2, 41, 108)),
                     SizedBox(height: 24.0),
-
-                    // Como funciona
                     Text(
                       "Como funciona?",
                       style: TextStyle(
@@ -79,10 +73,8 @@ class JoinVoluntariosScreen extends StatelessWidget {
                     SizedBox(height: 16.0),
                     _buildStep("1", "Você já criou sua conta, só falta preencher alguns dados para seu cadastro nos volutáRios estar completo.", const Color.fromARGB(255, 18, 204, 130)),
                     _buildStep("2", "Escolha ações para participar (limpeza, plantio, eventos).", const Color.fromARGB(255, 2, 41, 108)),
-                    _buildStep("3", "Conquiste medalhas e acompanhe seu impacto!", Colors.orangeAccent),
+                    _buildStep("3", "Faça seu login e veja mais sobre o VoluntáRios", Colors.orangeAccent),
                     SizedBox(height: 24.0),
-
-                    // Call to Action
                     Center(
                       child: Column(
                         children: [
@@ -125,7 +117,7 @@ class JoinVoluntariosScreen extends StatelessWidget {
                                     style: TextStyle(color: Colors.teal.shade700),
                                   ),
                                   content: Text(
-                                      "Ao se juntar ao VoluntaRios, você poderá participar de ações incríveis para proteger o meio ambiente."),
+                                      "Ao se juntar ao VoluntáRios, você poderá participar de ações incríveis para proteger o meio ambiente."),
                                   actions: [
                                     TextButton(
                                       onPressed: () {

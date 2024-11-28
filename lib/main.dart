@@ -17,7 +17,7 @@ class VoluntariosApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VoluntaRios',
+      title: 'VoluntáRios',
       theme: ThemeData(
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
